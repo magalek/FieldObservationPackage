@@ -38,7 +38,7 @@ namespace FieldObservationPackage.Runtime {
             Instance.AddObservedObject(name, observedObject);
         }
 
-            private ObservedObjectData PopulateList(string name, object observedObject) {
+        private ObservedObjectData PopulateList(string name, object observedObject) {
             List<ObservedFieldData> tempList = new List<ObservedFieldData>();
             Type objectType = observedObject.GetType();
             FieldInfo[] fields = objectType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -49,35 +49,6 @@ namespace FieldObservationPackage.Runtime {
                 }
             }
             return new ObservedObjectData(name, objectType, tempList);
-        }
-
-
-    }
-
-    public class ObservedFieldData {
-        public readonly FieldInfo Info;
-        public readonly object ReflectedObject;
-        public readonly object ExpectedValue;
-        public readonly Type ExpectedValueType;
-
-
-        public ObservedFieldData(FieldInfo info, object reflectedObject, object expectedValue = null, Type expectedValueType = null) {
-            Info = info;
-            ReflectedObject = reflectedObject;
-            ExpectedValue = expectedValue;
-            ExpectedValueType = expectedValueType;
-        }
-    }
-
-    public class ObservedObjectData {
-        public readonly string Name;
-        public readonly Type ObjectType;
-        public readonly List<ObservedFieldData> Fields;
-
-        public ObservedObjectData(string name, Type objectType, List<ObservedFieldData> fields) {
-            Name = name;
-            ObjectType = objectType;
-            Fields = fields;
         }
     }
 }
