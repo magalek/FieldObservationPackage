@@ -1,6 +1,6 @@
 # FieldObservationPackage
 
-A tool whichs allows you to use `[ObserveField]` attribute on various fields in your code, which shows their value in custom **FieldObserverWindow**.
+A tool whichs allows you to use `[ObserveField]` attribute on various fields in your code, which shows their value in **FieldObserver** Window.
 
 # Example usage:
 
