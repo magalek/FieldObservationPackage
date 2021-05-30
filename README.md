@@ -23,3 +23,10 @@ public class ExampleComponent : MonoBehaviour
 ```
 
 ![text](https://github.com/magalek/FieldObservationPackage/blob/master/readme.gif)
+
+
+# How to use:
+
+1. Assign `[ObserveField]` attribute to a field in you script.
+2. Use `ObserverController.ObserveObject(name, this);` in your script `Awake()` method or constructor.
+3. Open `Windows/FieldObserverWindow`.
