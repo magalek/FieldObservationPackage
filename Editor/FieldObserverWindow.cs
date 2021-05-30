@@ -14,40 +14,27 @@ namespace FieldObservationPackage.Editor {
     [EditorWindowTitle(title = "FieldObserver")]
     public class FieldObserverWindow : EditorWindow {
 
-        private List<FieldInfo> observedFields = new List<FieldInfo>();
+        private Vector2 scrollPosition;
 
-        [MenuItem("Windows/FieldObserverWindow")]
+        [MenuItem("Windows/FieldObserver")]
         public static void ShowWindow() {
             GetWindow<FieldObserverWindow>("FieldObserver");
-            FindObservedFields();
-        }
-
-        private static void FindObservedFields() {
-            Assembly asm = Assembly.GetCallingAssembly();
-            Type[] types = asm.GetTypes();
-
-            foreach (var type in types) {
-                FieldInfo[] fields = type.GetFields();
-                foreach (var field in fields) {
-                    ObserveFieldAttribute attribute = field.GetCustomAttribute<ObserveFieldAttribute>();
-                    if (attribute != null) {
-                        Debug.Log(field.Name);
-                    }
-                }
-                
-            }
         }
 
         private void Update() {
+            if (!Application.isPlaying) {
+                return;
+            }
             Repaint();
         }
 
         private void OnGUI() {
             if (!Application.isPlaying) {
+                EditorGUILayout.LabelField("Enter play mode to show data");
                 return;
             }
-            Profiler.BeginSample("WINDOW GUI");
             EditorGUILayout.BeginVertical();
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             foreach (ObservedObjectData data in ObserverController.Instance.observedObjectData) {
                 EditorGUILayout.LabelField($"{data.Name} - {data.ObjectType}");
                 foreach (var fieldData in data.Fields) {
@@ -76,7 +63,7 @@ namespace FieldObservationPackage.Editor {
                 
             }
             EditorGUILayout.EndVertical();
-            Profiler.EndSample();
+            EditorGUILayout.EndScrollView();
         }
     }
 }

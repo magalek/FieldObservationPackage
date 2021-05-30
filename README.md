@@ -29,4 +29,4 @@ public class ExampleComponent : MonoBehaviour
 
 1. Assign `[ObserveField]` attribute to a field in you script.
 2. Use `ObserverController.ObserveObject(name, this);` in your script `Awake()` method or constructor.
-3. Open `Windows/FieldObserverWindow`.
+3. Open `Windows/FieldObserver`.
