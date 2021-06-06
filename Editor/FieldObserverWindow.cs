@@ -1,6 +1,7 @@
 ﻿using FieldObservationPackage.Runtime;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -13,10 +14,11 @@ namespace FieldObservationPackage.Editor {
 
         private static ObservedObjectsDataContainer dataContainer;
 
-        private static List<ObservedObjectData> observedObjectData = new List<ObservedObjectData>();
-        private List<int> idsToRemove = new List<int>();
+        private static List<ObservedObjectData> observedObjectsData = new List<ObservedObjectData>();
+        private static Queue<int> idsToRemoveQueue = new Queue<int>();
 
         private static bool initialized;
+        private static bool assigningObjects;
 
         [MenuItem("Windows/FieldObserver")]
         public static void ShowWindow() {
@@ -24,6 +26,7 @@ namespace FieldObservationPackage.Editor {
             Initialize();
         }
 
+        [InitializeOnLoadMethod]
         private static void Initialize() {
             if (initialized) {
                 return;
@@ -31,6 +34,7 @@ namespace FieldObservationPackage.Editor {
             dataContainer = AssetDatabase.LoadAssetAtPath<ObservedObjectsDataContainer>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("ObservedObjectsDataContainer")[0]));
             EditorApplication.playModeStateChanged += AssignObjects;
             dataContainer.IDListChanged += AssignObjects;
+            
             initialized = true;
         }
         
@@ -41,8 +45,9 @@ namespace FieldObservationPackage.Editor {
             AssignObjects();
         }
 
+        [DidReloadScripts]
         private static void AssignObjects() {
-            observedObjectData.Clear();
+            observedObjectsData.Clear();
             foreach (var id in dataContainer.objectIDs) {
                 var obj = EditorUtility.InstanceIDToObject(id);
                 AddObservedObject(obj.name, obj);
@@ -53,13 +58,26 @@ namespace FieldObservationPackage.Editor {
             if (!initialized) {
                 Initialize();
             }
-            if (observedObjectData.Count > 0) {
+
+            if (idsToRemoveQueue.Count > 0) {
+                while (idsToRemoveQueue.Count > 0) {
+                    dataContainer.RemoveID(idsToRemoveQueue.Dequeue());
+                }
+            }
+
+            if (observedObjectsData.Count > 0) {
                 Repaint();
             }
         }
 
         private static void AddObservedObject(string name, Object observedObject) {
-            observedObjectData.Add(DataUtility.GetObjectData(name, observedObject));
+
+            if (DataUtility.TryGetObjectData(name, observedObject, out ObservedObjectData observedObjectData)) {
+                observedObjectsData.Add(observedObjectData);
+            }
+            else {
+                idsToRemoveQueue.Enqueue(observedObjectData.ObjectID);
+            }
             AssetDatabase.SaveAssets();
         }
 
@@ -77,25 +95,20 @@ namespace FieldObservationPackage.Editor {
                 }
             }
 
-            if (observedObjectData.Count == 0) {
+            if (observedObjectsData.Count == 0) {
                 EditorGUILayout.LabelField("Drag objects from hierarchy to observe them.");
                 return;
             }
 
-            foreach (var id in idsToRemove) {
-                dataContainer.RemoveID(id);
-            }
-            idsToRemove.Clear();
-
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             EditorGUILayout.BeginVertical();
-            foreach (ObservedObjectData data in observedObjectData) {
+            foreach (ObservedObjectData data in observedObjectsData) {
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField($"{data.Name} - {data.ObjectType}", EditorStyles.boldLabel);
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("X", new GUILayoutOption[] { GUILayout.Width(50) } )) {
-                    idsToRemove.Add(data.ObjectID);
+                    idsToRemoveQueue.Enqueue(data.ObjectID);
                 }
                 EditorGUILayout.EndHorizontal();
                 foreach (var fieldData in data.Fields) {

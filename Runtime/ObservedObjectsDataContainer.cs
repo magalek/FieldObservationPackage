@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace FieldObservationPackage.Runtime {
@@ -16,11 +17,18 @@ namespace FieldObservationPackage.Runtime {
             }
             objectIDs.Add(id);
             IDListChanged?.Invoke();
+            Save();
         }
 
         public void RemoveID(int id) {
             objectIDs.Remove(id);
             IDListChanged?.Invoke();
+            Save();
+        }
+
+        private void Save() {
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
         }
     }
 }
