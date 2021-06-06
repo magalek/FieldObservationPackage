@@ -16,6 +16,8 @@ namespace FieldObservationPackage.Editor {
         private static List<ObservedObjectData> observedObjectData = new List<ObservedObjectData>();
         private List<int> idsToRemove = new List<int>();
 
+        private static bool initialized;
+
         [MenuItem("Windows/FieldObserver")]
         public static void ShowWindow() {
             GetWindow<FieldObserverWindow>("FieldObserver");
@@ -27,6 +29,7 @@ namespace FieldObservationPackage.Editor {
             dataContainer = AssetDatabase.LoadAssetAtPath<ObservedObjectsDataContainer>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("ObservedObjectsDataContainer")[0]));
             EditorApplication.playModeStateChanged += AssignObjects;
             dataContainer.IDListChanged += AssignObjects;
+            initialized = true;
         }
         
         private static void AssignObjects(PlayModeStateChange stateChange) {
@@ -45,6 +48,9 @@ namespace FieldObservationPackage.Editor {
         }
 
         private void Update() {
+            if (!initialized) {
+                Initialize();
+            }
             if (observedObjectData.Count > 0) {
                 Repaint();
             }
