@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 
 namespace FieldObservationPackage.Runtime {
+    [Serializable]
     public class ObservedObjectData {
-        public readonly string Name;
-        public readonly Type ObjectType;
-        public readonly List<ObservedFieldData> Fields;
+        public string Name;
+        public Type ObjectType;
+        public List<ObservedFieldData> Fields;
+        public int ObjectID;
 
-        public ObservedObjectData(string name, Type objectType, List<ObservedFieldData> fields) {
+        public ObservedObjectData(string name, Type objectType, List<ObservedFieldData> fields, int objectID) {
             Name = name;
             ObjectType = objectType;
             Fields = fields;
+            ObjectID = objectID;          
         }
     }
 }

@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Reflection;
+using Object = UnityEngine.Object;
 
 namespace FieldObservationPackage.Runtime {
+    [Serializable]
     public class ObservedFieldData {
-        public readonly FieldInfo Info;
-        public readonly object ReflectedObject;
-        public readonly object ExpectedValue;
-        public readonly Type ExpectedValueType;
+        public string FieldName;
+        public FieldInfo Info;
+        public Object ReflectedObject;
+        public object currentValue;
 
-
-        public ObservedFieldData(FieldInfo info, object reflectedObject, object expectedValue = null, Type expectedValueType = null) {
+        public ObservedFieldData(string fieldName, FieldInfo info, Object reflectedObject) {
+            FieldName = fieldName;
             Info = info;
             ReflectedObject = reflectedObject;
-            ExpectedValue = expectedValue;
-            ExpectedValueType = expectedValueType;
+            currentValue = null;
+        }
+
+        public void RecalculateValue() {
+            currentValue = Info.GetValue(ReflectedObject);
         }
     }
 }
