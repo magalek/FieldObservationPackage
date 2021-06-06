@@ -5,8 +5,9 @@ A tool whichs allows you to use `[ObserveField]` attribute on various fields in 
 # Example usage:
 
 1. Assign `[ObserveField]` attribute to a field in you script.
-2. Use `ObserverController.ObserveObject(name, this);` in your script `Awake()` method or constructor.
-3. Open `Windows/FieldObserver`.
+2. Open `Windows/FieldObserver`.
+3. Drag and drop objects you wish to observe into the **Field Observer** window.
+4. Go into play mode.
 
 ```cs
 public class ExampleComponent : MonoBehaviour
@@ -16,10 +17,6 @@ public class ExampleComponent : MonoBehaviour
     [ObserveField]
     private float lifeTime;
 
-    private void Awake() {
-        ObserverController.ObserveObject(name, this);
-    }
-
     void Update()
     {
         position = transform.position;
@@ -28,4 +25,4 @@ public class ExampleComponent : MonoBehaviour
 }
 ```
 
-![text](https://github.com/magalek/FieldObservationPackage/blob/master/readme.gif)
+![text](https://github.com/magalek/FieldObservationPackage/blob/master/readme2.gif)
