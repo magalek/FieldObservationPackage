@@ -24,8 +24,10 @@ namespace FieldObservationPackage.Editor {
             Initialize();
         }
 
-        [InitializeOnLoadMethod]
         private static void Initialize() {
+            if (initialized) {
+                return;
+            }
             dataContainer = AssetDatabase.LoadAssetAtPath<ObservedObjectsDataContainer>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("ObservedObjectsDataContainer")[0]));
             EditorApplication.playModeStateChanged += AssignObjects;
             dataContainer.IDListChanged += AssignObjects;
