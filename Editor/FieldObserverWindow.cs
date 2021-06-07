@@ -8,7 +8,6 @@ using Object = UnityEngine.Object;
 namespace FieldObservationPackage.Editor {
 
     [ExecuteAlways]
-    [EditorWindowTitle(title = "FieldObserver")]
     public class FieldObserverWindow : EditorWindow {
         [SerializeField] private Vector2 scrollPosition;
 
