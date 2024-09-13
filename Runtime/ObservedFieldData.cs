@@ -1,13 +1,12 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Object = UnityEngine.Object;
 
 namespace FieldObservationPackage.Runtime {
-    [Serializable]
+    
     public class ObservedFieldData {
-        public string FieldName;
-        public FieldInfo Info;
-        public Object ReflectedObject;
+        private string FieldName;
+        public readonly FieldInfo Info;
+        private Object ReflectedObject;
         public object currentValue;
 
         public ObservedFieldData(string fieldName, FieldInfo info, Object reflectedObject) {
@@ -17,8 +16,8 @@ namespace FieldObservationPackage.Runtime {
             currentValue = null;
         }
 
-        public void RecalculateValue() {
-            currentValue = Info.GetValue(ReflectedObject);
-        }
+        public void RecalculateValue() => currentValue = Info.GetValue(ReflectedObject);
+
+        public void ReassignObject(Object newObject) => ReflectedObject = newObject;
     }
 }

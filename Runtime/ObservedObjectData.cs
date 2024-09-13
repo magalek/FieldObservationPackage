@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 
 namespace FieldObservationPackage.Runtime {
-    [Serializable]
+
     public class ObservedObjectData {
-        public string Name;
-        public Type ObjectType;
-        public List<ObservedFieldData> Fields;
-        public int ObjectID;
+        public readonly string Name;
+        public readonly Type ObjectType;
+        public readonly List<ObservedFieldData> Fields;
+        public readonly int ObjectID;
 
         public ObservedObjectData(string name, Type objectType, List<ObservedFieldData> fields, int objectID) {
             Name = name;
@@ -15,5 +16,8 @@ namespace FieldObservationPackage.Runtime {
             Fields = fields;
             ObjectID = objectID;          
         }
+
+        public void RebuildReferences() =>
+            Fields.ForEach(f => f.ReassignObject(EditorUtility.InstanceIDToObject(ObjectID)));
     }
 }
