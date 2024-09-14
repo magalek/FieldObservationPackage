@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/FieldObservationPackage/UI/FieldObservingWindow.uss?fileID=7433441132597879392&amp;guid=f2e87de9fbbd71b4d925f4cabec06345&amp;type=3#FieldObservingWindow" />
+    <ui:ListView name="ListView" item-template="project://database/Assets/FieldObservationPackage/UI/ObjectDataBox.uxml?fileID=9197481963319205126&amp;guid=d6137becad1da4b4f8d14c11c0c3d832&amp;type=3#ObjectDataBox" fixed-item-height="50" virtualization-method="DynamicHeight" />
+</ui:UXML>

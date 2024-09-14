@@ -6,7 +6,7 @@ namespace FieldObservationPackage.Runtime {
     public class ObservedFieldData {
         private string FieldName;
         public readonly FieldInfo Info;
-        private Object ReflectedObject;
+        public Object ReflectedObject;
         public object currentValue;
 
         public ObservedFieldData(string fieldName, FieldInfo info, Object reflectedObject) {

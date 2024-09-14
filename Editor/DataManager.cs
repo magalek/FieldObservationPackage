@@ -15,7 +15,7 @@ namespace FieldObservationPackage.Editor
         {
             File.WriteAllText(ObjectsCache.FilePath, JsonUtility.ToJson(cache));
         }
-
+        
         private ObjectsCache LoadCache()
         {
             if (!File.Exists(ObjectsCache.FilePath))
@@ -24,7 +24,8 @@ namespace FieldObservationPackage.Editor
                 SaveCache();
                 return tempCache;
             }
-            return JsonUtility.FromJson<ObjectsCache>(File.ReadAllText(ObjectsCache.FilePath));
+            var output =JsonUtility.FromJson<ObjectsCache>(File.ReadAllText(ObjectsCache.FilePath));
+            return output ?? new ObjectsCache();
         }
 
         private readonly Queue<int> idsToAdd = new Queue<int>();
@@ -49,17 +50,27 @@ namespace FieldObservationPackage.Editor
             if (cache?.ids == null) return;
             foreach (var id in cache.ids) {
                 var obj = EditorUtility.InstanceIDToObject(id);
-                AddObject(obj.name, obj);
+                if (obj != null) AddObject(obj.name, obj);
+                else idsToRemove.Enqueue(id);
+            }
+
+            foreach (var id in idsToRemove)
+            {
+                RemoveId(id);
             }
         }
         
+        
         private void AddObject(string name, Object observedObject) {
 
-            if (DataUtility.TryGetObjectData(name, observedObject, out ObservedObjectData observedObjectData)) {
-                observedObjects.Add(observedObjectData);
+            if (DataUtility.TryGetObjectData(name, observedObject, out List<ObservedObjectData> observedObjectsDatas)) {
+                observedObjects.AddRange(observedObjectsDatas);
             }
             else {
-                idsToRemove.Enqueue(observedObjectData.ObjectID);
+                foreach (var obj in observedObjects)
+                {
+                    idsToRemove.Enqueue(obj.ObjectID);
+                }
             }
         }
 

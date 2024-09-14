@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/FieldObservationPackage/UI/FieldObservingWindow.uss?fileID=7433441132597879392&amp;guid=f2e87de9fbbd71b4d925f4cabec06345&amp;type=3#FieldObservingWindow" />
+    <ui:VisualElement name="ObjectDataBox" style="flex-grow: 1;">
+        <ui:VisualElement class="section" style="flex-grow: 1; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px;">
+            <ui:Foldout value="false" name="object_foldout">
+                <ui:ListView item-template="project://database/Assets/FieldObservationPackage/UI/ObservedObjectBox.uxml?fileID=9197481963319205126&amp;guid=c195c3ee20c1f1f4198560d85d4122a3&amp;type=3#ObservedObjectBox" class="normal_text" style="margin-left: 10px; align-items: stretch; justify-content: flex-start; align-self: auto; margin-right: 25px; -unity-font-style: normal;" />
+            </ui:Foldout>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="field_property" style="flex-grow: 1; flex-direction: row; align-items: auto; justify-content: space-around;">
+        <ui:Label text="Label" name="name" style="align-items: auto;" />
+        <ui:Label text="Label" name="value" />
+    </ui:VisualElement>
+</ui:UXML>

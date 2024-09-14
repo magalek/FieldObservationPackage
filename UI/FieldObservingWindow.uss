@@ -1,0 +1,32 @@
+.custom-label {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: rgb(68, 138, 255);
+}
+
+.section {
+    background-color: rgba(111, 111, 111, 0.51);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-left-color: rgba(0, 0, 0, 0.36);
+    border-right-color: rgba(0, 0, 0, 0.36);
+    border-top-color: rgba(0, 0, 0, 0.36);
+    border-bottom-color: rgba(0, 0, 0, 0.36);
+}
+
+.header {
+    -unity-font-style: bold;
+    font-size: 14px;
+    -unity-text-align: upper-left;
+    margin-left: 4px;
+}
+
+.normal_text {
+    font-size: 10px;
+}
